@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<meta http-equiv='X-UA-Compatible' content='ie=edge, chrome=1'>
+	<meta name='mobile-web-app-capable' content='yes'>
+	<!-- Tell browsers that this is a web app -->
+	<link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet'>
+	<link rel='icon' href='http://creativeshi.com/favicon.ico' type='image/icon'>
+	<link rel='icon' sizes='256x256' href='http://creativeshi.com/idea.png'>
+	<!-- Icons for web app -->
+	<title>Easy Home Automation - By Shivam</title>
+	<!-- Title of the app -->
+</head>
+<!-- Add styling -->
+<style>
+	/* Remove user tap highlight */
+	* {
+		-webkit-touch-callout: none;
+		-webkit-text-size-adjust: none;
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		-webkit-user-select: none;
+		user-select: none;
+	}
+	/* Make body html with 100 view width & height */
+	html,
+	body {
+		width: 100vw;
+		height: 100vh;
+		margin: 0;
+		padding: 0;
+	}
+	/* Put all the items center on the page using flexbox */
+	body {
+		display: flex;
+		align-content: center;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		background: #000000cc;
+	}
+	/* Decorate the button */
+	.btn {
+		background-color: #4CAF50;
+		border: none;
+		color: white;
+		width: 300px;
+		padding: 10px 20px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-family: 'Shadows Into Light', cursive;
+		font-size: 32px;
+		margin: 4px 2px;
+		-webkit-transition-duration: 0.4s;
+		transition-duration: 0.4s;
+		cursor: pointer;
+		border: #fff 2px solid;
+	}
+	.red {
+		background-color: #f44336;
+	}
+</style>
+
+<body>
+	<!-- Make 5 buttons in html -->
+	<Button class='btn'>Side LED</Button>
+	<Button class='btn'>Front LED</Button>
+	<Button class='btn'>Fan</Button>
+	<Button class='btn'>Socket</Button>
+	<Button class='btn'>TV</Button>
+	<Button class='btn'>All Devices</Button>
+
+	<!-- Javascript code for making ajax request -->
+	<script>
+		const devices = ['side led', 'front led', 'fan', 'socket', 'tv', 'all devices'], //URL's for our devices
+			allbtn = document.querySelectorAll('.btn'); // Select all the buttons
+		let btnState = []; // array for storing button states
+		allbtn.forEach((x, i) => btnState[i]); // use forEach function for filling array with no. of devices
+		// Make a function for sending ajax reqest for specific buttons
+		function sendReq(devicePath, btnNum) {
+			// btnNum is the button which user is clicking
+			// device path is the path of button for making request
+			var xhttp = new XMLHttpRequest();
+			allbtn[btnNum].classList.toggle('red'); // Toggle the class red on the button which is clicked
+			if (!btnState[btnNum]) {
+				// if btn State of the clicked button is false then make get request on devicePath/on
+				// which will turn things on
+				xhttp.open('GET', '/' + devicePath + '/on', true);
+				xhttp.send();
+				btnState[btnNum] = true; // make the button state now true
+			} else {
+				// if it is not the condition then make off request
+				xhttp.open('GET', '/' + devicePath + '/off', true);
+				xhttp.send();
+				btnState[btnNum] = false; // make the button state now false
+			}
+		}
+		// Add click event listener to all the buttons and trigger the sendRequest function with device url and index no.
+		allbtn.forEach((x, i) => x.addEventListener('click', () => sendReq(devices[i], i)));
+	</script>
+</body>
+
+</html>
