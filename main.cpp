@@ -12,8 +12,8 @@
 uint8_t n = 0;
 
 unsigned long check_wifi = 30000;
-const char* ssid     = "Joker";
-const char* password = "1433hacker";
+const char* ssid     = "WiFi Name";
+const char* password = "xxxx";
 
 // Define relay pins for switching things
 int LED1 = 16,
