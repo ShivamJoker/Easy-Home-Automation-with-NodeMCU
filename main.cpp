@@ -8,12 +8,13 @@
 #include <ESP8266WiFi.h>
 // #include <WiFi.h> // for esp32
 #include <EEPROM.h> // include eeprom for storage
+// #include <ESPmDNS.h> // added for local mdns (homeauto.local)
 
 uint8_t n = 0;
 
 unsigned long check_wifi = 30000;
-const char* ssid     = "WiFi Name";
-const char* password = "xxxx";
+const char* ssid     = "Your_WiFi";
+const char* password = "password";
 
 // Define relay pins for switching things
 int LED1 = 16,
@@ -67,6 +68,10 @@ void setup()
      Serial.print("IP address: ");
      Serial.print(WiFi.localIP()); // Local ip of esp32
    }
+   // if (!MDNS.begin("homeauto")) {
+   //      Serial.println("Error setting up MDNS responder!");
+   //  }
+   
 
    server.begin();
 
@@ -112,7 +117,7 @@ if ((WiFi.status() != WL_CONNECTED) && (millis() > check_wifi)) {
 
             // the content of the HTTP response follows the header:
             // Our client HTML code starts here which is in compressed format with no double semicolons
-            client.print("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta http-equiv='X-UA-Compatible' content='ie=edge, chrome=1'><meta name='mobile-web-app-capable' content='yes'><meta name='theme-color' content='#2f3640'><meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'><link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'><link rel='icon' href='http://creativeshi.com/favicon.ico' type='image/icon'><link rel='icon' sizes='256x256' href='http://creativeshi.com/idea.png'><title>Easy Home Automation - By Shivam</title></head> <style>*{-webkit-touch-callout:none;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-user-select:none;user-select:none;box-sizing:border-box;font-family:'Rubik',sans-serif}html,body{width:100vw;height:100vh;margin:0;padding:0}body{display:flex;align-content:center;align-items:center;justify-content:center;flex-direction:column;background:#2f3640}.tggl-btn{transition:all 0.3s ease-in;background-color:#ff6b6b;display:inline-block;position:relative;width:4em;height:2em;border-radius:1em;cursor:pointer;padding:2px}.tggl-btn:after{content:'';display:block;position:absolute;background-color:#fff;width:calc(50% - 4px);height:calc(100% - 4px);border-radius:50%;left:2px;transition:left 0.2s ease, background-color 0.3s ease}.tggl-btn.tggl-on:after{left:calc(50%+2px)}.tggl-btn.tggl-on{background:#1dd1a1}.box{background:#ffffff14;padding:20px 30px;border-radius:18px;box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0,0,0,0.19)}.switch-wrap{display:flex;align-items:center;justify-content:space-between;width:300px;padding:8px}span{font-size:38px;color:#fff;padding-right:15px}</style><body><div class='box'><div class='switch-wrap'> <span>Side LED</span> <label class='tggl-btn ying'></label></div><div class='switch-wrap'> <span>Front LED</span> <label class='tggl-btn ying tggl-on'></label></div><div class='switch-wrap'> <span>Fan</span> <label class='tggl-btn ying tggl-on'></label></div><div class='switch-wrap'> <span>Socket</span> <label class='tggl-btn ying'></label></div><div class='switch-wrap'> <span>All Devices</span> <label class='tggl-btn ying'></label></div></div> <script>const devices=['side led','front led','fan','socket','tv','all devices'],allbtn=document.querySelectorAll('.tggl-btn');let btnState=[];allbtn.forEach((x,i)=>btnState[i]);function sendReq(devicePath,btnNum){allbtn[btnNum].classList.toggle('tggl-on');if(!btnState[btnNum]){fetch('/'+devicePath+'/on')}else{fetch('/'+devicePath+'/off') btnState[btnNum]=false;}} allbtn.forEach((x,i)=>x.addEventListener('click',()=>sendReq(devices[i],i)));</script> </body></html>");
+            client.print("<!DOCTYPE html><html lang='en'><head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <meta http-equiv='X-UA-Compatible' content='ie=edge, chrome=1'> <meta name='mobile-web-app-capable' content='yes'> <meta name='theme-color' content='#2f3640'> <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'> <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'> <link rel='icon' href='http://creativeshi.com/favicon.ico' type='image/icon'> <link rel='icon' sizes='256x256' href='http://creativeshi.com/idea.png'> <title>Easy Home Automation - By Shivam</title></head><style>*{-webkit-touch-callout: none; -webkit-text-size-adjust: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-user-select: none; user-select: none; box-sizing: border-box; font-family: 'Rubik', sans-serif}html, body{width: 100vw; height: 100vh; margin: 0; padding: 0}body{display: flex; align-content: center; align-items: center; justify-content: center; flex-direction: column; background: #2f3640}.tggl-btn{transition: all 0.3s ease-in; background-color: #ff6b6b; display: inline-block; position: relative; width: 4em; height: 2em; border-radius: 1em; cursor: pointer; padding: 2px;}.tggl-btn:after{content: ''; display: block; position: absolute; background-color: #fff; width: calc(50% - 4px); height: calc(100% - 4px); border-radius: 50%; left: 2px; transition: left 0.2s ease, background-color 0.3s ease;}.tggl-btn.tggl-on:after{left: calc(50% + 2px);}.tggl-btn.tggl-on{background: #1dd1a1;}.box{background: #ffffff14; padding: 20px 30px; border-radius: 18px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)}.switch-wrap{display: flex; align-items: center; justify-content: space-between; width: 300px; padding: 8px}span{font-size: 38px; color: #fff; padding-right: 15px}</style><body> <div class='box'> <div class='switch-wrap'> <span>Side LED</span> <label class='tggl-btn ying'></label></div><div class='switch-wrap'> <span>Front LED</span> <label class='tggl-btn ying'></label></div><div class='switch-wrap'> <span>Fan</span> <label class='tggl-btn ying'></label></div><div class='switch-wrap'> <span>Socket</span> <label class='tggl-btn ying'></label></div><div class='switch-wrap'> <span>All Devices</span> <label class='tggl-btn ying'></label></div></div><script>const devices=['side led', 'front led', 'fan', 'socket', 'tv', 'all devices'], allbtn=document.querySelectorAll('.tggl-btn'); let btnState=[]; allbtn.forEach((x, i)=> btnState[i]); function sendReq(devicePath, btnNum){allbtn[btnNum].classList.toggle('tggl-on'); if (!btnState[btnNum]){fetch('/' + devicePath + '/on');}else{fetch('/' + devicePath + '/off'); btnState[btnNum]=false;}}allbtn.forEach((x, i)=> x.addEventListener('click', ()=> sendReq(devices[i], i))); </script></body></html>");
 
             // The HTTP response ends with another blank line:
             client.println();
@@ -147,10 +152,10 @@ if ((WiFi.status() != WL_CONNECTED) && (millis() > check_wifi)) {
           digitalWrite(socket, LOW);
           EEPROM.write(3,0);
         }
-        if (currentLine.endsWith("get /tv/on")) {
-          digitalWrite(socket, LOW);
-          EEPROM.write(4,0);
-        }
+//         if (currentLine.endsWith("get /tv/on")) {
+//           digitalWrite(socket, LOW);
+//           EEPROM.write(4,0);
+//         }
         // duplicate if statement if you have other Devices
         // if (currentLine.endsWith("get /YourDeviceName/on or off")) {
         //   digitalWrite(your device, LOW or Hight or 0 or 1);
@@ -196,7 +201,7 @@ if ((WiFi.status() != WL_CONNECTED) && (millis() > check_wifi)) {
           digitalWrite(LED2, HIGH);
           digitalWrite(fan, HIGH);
           digitalWrite(socket, HIGH);
-          digitalWrite(tv, HIGH);
+          // digitalWrite(tv, HIGH);
           EEPROM.write(0,1);
           EEPROM.write(1,1);
           EEPROM.write(2,1);
