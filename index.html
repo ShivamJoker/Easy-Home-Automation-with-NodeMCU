@@ -2,105 +2,162 @@
 <html lang='en'>
 
 <head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-	<meta http-equiv='X-UA-Compatible' content='ie=edge, chrome=1'>
-	<meta name='mobile-web-app-capable' content='yes'>
-	<!-- Tell browsers that this is a web app -->
-	<link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet'>
-	<link rel='icon' href='http://creativeshi.com/favicon.ico' type='image/icon'>
-	<link rel='icon' sizes='256x256' href='http://creativeshi.com/idea.png'>
-	<!-- Icons for web app -->
-	<title>Easy Home Automation - By Shivam</title>
-	<!-- Title of the app -->
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge, chrome=1'>
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name="theme-color" content="#2f3640">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Tell browsers that this is a web app -->
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link rel='icon' href='http://creativeshi.com/favicon.ico' type='image/icon'>
+    <link rel='icon' sizes='256x256' href='http://creativeshi.com/idea.png'>
+    <!-- Icons for web app -->
+    <title>Easy Home Automation - By Shivam</title>
+    <!-- Title of the app -->
 </head>
 <!-- Add styling -->
 <style>
-	/* Remove user tap highlight */
-	* {
-		-webkit-touch-callout: none;
-		-webkit-text-size-adjust: none;
-		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-		-webkit-user-select: none;
-		user-select: none;
-	}
-	/* Make body html with 100 view width & height */
-	html,
-	body {
-		width: 100vw;
-		height: 100vh;
-		margin: 0;
-		padding: 0;
-	}
-	/* Put all the items center on the page using flexbox */
-	body {
-		display: flex;
-		align-content: center;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-		background: #000000cc;
-	}
-	/* Decorate the button */
-	.btn {
-		background-color: #4CAF50;
-		border: none;
-		color: white;
-		width: 300px;
-		padding: 10px 20px;
-		text-align: center;
-		text-decoration: none;
-		display: inline-block;
-		font-family: 'Shadows Into Light', cursive;
-		font-size: 32px;
-		margin: 4px 2px;
-		-webkit-transition-duration: 0.4s;
-		transition-duration: 0.4s;
-		cursor: pointer;
-		border: #fff 2px solid;
-	}
-	.red {
-		background-color: #f44336;
-	}
+    /* Remove user tap highlight */
+    * {
+        -webkit-touch-callout: none;
+        -webkit-text-size-adjust: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-user-select: none;
+        user-select: none;
+        box-sizing: border-box;
+        font-family: 'Rubik', sans-serif;
+    }
+
+
+    /* Make body html with 100 view width & height */
+    html,
+    body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Put all the items center on the page using flexbox */
+    body {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background: #2f3640;
+    }
+
+
+    .tggl-btn {
+        transition: all 0.3s ease-in;
+        background-color: #ff6b6b;
+        display: inline-block;
+        position: relative;
+        width: 4em;
+        height: 2em;
+        border-radius: 1em;
+        cursor: pointer;
+        padding: 2px;
+    }
+
+
+    .tggl-btn:after {
+        content: '';
+        display: block;
+        position: absolute;
+        background-color: #fff;
+        width: calc(50% - 4px);
+        height: calc(100% - 4px);
+        border-radius: 50%;
+        left: 2px;
+        transition: left 0.2s ease, background-color 0.3s ease;
+    }
+
+    .tggl-btn.tggl-on:after {
+        left: calc(50% + 2px);
+    }
+
+    .tggl-btn.tggl-on {
+        background: #1dd1a1;
+    }
+
+    .box {
+        background: #ffffff14;
+        padding: 20px 30px;
+        border-radius: 18px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .switch-wrap {
+        /* width: 100%; */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 300px;
+        padding: 8px;
+    }
+
+    span {
+        font-size: 38px;
+        color: #fff;
+        padding-right: 15px;
+        /* width: 80%; */
+        /* text-align: center; */
+    }
 </style>
 
 <body>
-	<!-- Make 5 buttons in html -->
-	<Button class='btn'>Side LED</Button>
-	<Button class='btn'>Front LED</Button>
-	<Button class='btn'>Fan</Button>
-	<Button class='btn'>Socket</Button>
-	<Button class='btn'>TV</Button>
-	<Button class='btn'>All Devices</Button>
+    <div class="box">
+        <!-- Make 5 buttons in html -->
+        <div class="switch-wrap">
+            <span>Side LED</span>
+            <label class="tggl-btn ying"></label>
+        </div>
+        <div class="switch-wrap">
+            <span>Front LED</span>
+            <label class="tggl-btn ying tggl-on"></label>
+        </div>
+        <div class="switch-wrap">
+            <span>Fan</span>
+            <label class="tggl-btn ying tggl-on"></label>
+        </div>
+        <div class="switch-wrap">
+            <span>Socket</span>
+            <label class="tggl-btn ying"></label>
+        </div>
+        <div class="switch-wrap">
+            <span>All Devices</span>
+            <label class="tggl-btn ying"></label>
+        </div>
+    </div>
 
-	<!-- Javascript code for making ajax request -->
-	<script>
-		const devices = ['side led', 'front led', 'fan', 'socket', 'tv', 'all devices'], //URL's for our devices
-			allbtn = document.querySelectorAll('.btn'); // Select all the buttons
-		let btnState = []; // array for storing button states
-		allbtn.forEach((x, i) => btnState[i]); // use forEach function for filling array with no. of devices
-		// Make a function for sending ajax reqest for specific buttons
-		function sendReq(devicePath, btnNum) {
-			// btnNum is the button which user is clicking
-			// device path is the path of button for making request
-			var xhttp = new XMLHttpRequest();
-			allbtn[btnNum].classList.toggle('red'); // Toggle the class red on the button which is clicked
-			if (!btnState[btnNum]) {
-				// if btn State of the clicked button is false then make get request on devicePath/on
-				// which will turn things on
-				xhttp.open('GET', '/' + devicePath + '/on', true);
-				xhttp.send();
-				btnState[btnNum] = true; // make the button state now true
-			} else {
-				// if it is not the condition then make off request
-				xhttp.open('GET', '/' + devicePath + '/off', true);
-				xhttp.send();
-				btnState[btnNum] = false; // make the button state now false
-			}
-		}
-		// Add click event listener to all the buttons and trigger the sendRequest function with device url and index no.
-		allbtn.forEach((x, i) => x.addEventListener('click', () => sendReq(devices[i], i)));
-	</script>
+
+    <!-- Javascript code for making ajax request -->
+    <script>
+        const devices = ['side led', 'front led', 'fan', 'socket', 'tv', 'all devices'], //URL's for our devices
+            allbtn = document.querySelectorAll('.tggl-btn'); // Select all the buttons
+        let btnState = []; // array for storing button states
+        allbtn.forEach((x, i) => btnState[i]); // use forEach function for filling array with no. of devices
+        // Make a function for sending ajax reqest for specific buttons
+        function sendReq(devicePath, btnNum) {
+            // btnNum is the button which user is clicking
+            // device path is the path of button for making request
+            allbtn[btnNum].classList.toggle('tggl-on'); // Toggle the class red on the button which is clicked
+            if (!btnState[btnNum]) {
+                // if btn State of the clicked button is false then make get request on devicePath/on
+                // which will turn things on
+                fetch('/' + devicePath + '/on')
+            } else {
+                // if it is not the condition then make off request
+                fetch('/' + devicePath + '/off')
+                btnState[btnNum] = false; // make the button state now false
+            }
+        }
+        // Add click event listener to all the buttons and trigger the sendRequest function with device url and index no.
+        allbtn.forEach((x, i) => x.addEventListener('click', () => sendReq(devices[i], i)));
+    </script>
 </body>
 
 </html>
